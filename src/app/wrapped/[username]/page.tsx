@@ -1,11 +1,12 @@
 import { WrappedClient } from './wrapped-client'
 
-interface PageProps {
-  params: {
+type PageProps = {
+  params: Promise<{
     username: string
-  }
+  }>  
 }
 
 export default async function WrappedPage({ params }: PageProps) {
-  return <WrappedClient username={params.username} />
+  const { username } = await params
+  return <WrappedClient username={username} />
 }
