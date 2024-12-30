@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, Pause, Volume2, VolumeX, Share2, Twitter, Link2, Check } from 'lucide-react'
+import { Play, Pause, Volume2, VolumeX, Share2, Twitter, Link2, Check, Gift } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { StoryProgress } from './story-progress'
 import { GithubStats, StorySlide } from '../types/github-stats'
@@ -146,26 +146,30 @@ export function StoryContainer({ slides, data, username }: StoryContainerProps) 
       <AnimatePresence>
         {!isUnwrapped ? (
           <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8, rotate: -10 }}
             transition={{ duration: 0.5 }}
             className="relative z-20 text-center"
           >
             <h1 className="text-4xl font-bold text-white mb-8">
-              Your GitHub Story 2024
+              Your GitHub Wrapped is Ready
             </h1>
             <Button
               onClick={handleUnwrap}
-              className="bg-white/10 backdrop-blur-lg hover:bg-white/20 text-white text-xl px-8 py-6 rounded-full"
+              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-xl px-8 py-6 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-200"
             >
-              Unwrap Your Year
+              Open Your Wrapped
             </Button>
           </motion.div>
         ) : (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, scale: 1.2, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ 
+              duration: 0.8,
+              type: "spring",
+              bounce: 0.4
+            }}
             className="relative w-[320px] h-[690px] overflow-hidden rounded-3xl shadow-2xl bg-black border border-white/10"
           >
             <StoryProgress

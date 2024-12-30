@@ -241,9 +241,40 @@ export function WrappedClient({ username }: { username: string }) {
 
   if (!data) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black text-white">
-        <div className="text-4xl font-bold mb-4">Loading your stats...</div>
-        <div className="text-neutral-400">This might take a few seconds</div>
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black relative overflow-hidden">
+        {/* Wavy animated background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/20 to-purple-500/20">
+          <div className="absolute inset-0 opacity-30">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute inset-0 animate-wave"
+                style={{
+                  backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 500 Q 250 300 500 500 T 1000 500 L 1000 1000 L 0 1000 Z' fill='%23fff'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: 'repeat-x',
+                  backgroundSize: '1000px 1000px',
+                  animationDelay: `${i * -5}s`,
+                  top: `${i * 10}%`
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="relative z-10 text-center px-4">
+          <div className="mb-8">
+            <div className="relative">
+              <div className="absolute inset-0 blur-3xl bg-pink-600/30 rounded-full" />
+              <div className="relative w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-pink-500 to-purple-600 animate-pulse" />
+            </div>
+          </div>
+          <h2 className="text-4xl font-bold text-white mb-4 animate-pulse">
+            Loading your stats...
+          </h2>
+          <p className="text-xl text-neutral-400 animate-pulse">
+            This might take a few seconds
+          </p>
+        </div>
       </div>
     )
   }
