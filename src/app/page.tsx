@@ -58,7 +58,7 @@ export default function Home() {
           </button>
         </form>
         <a
-          href="https://github.com/micahchoo/git-wrapped"
+          href="https://github.com/micahc123/github-wrapped-2024.git"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block mt-8 text-neutral-400 hover:text-white transition-colors"
