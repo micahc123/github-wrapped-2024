@@ -17,6 +17,14 @@ export interface GithubStats {
     }>
     activeDays: number
     longestGap: number
+    mostActiveDay: {
+      date: string
+      contributions: number
+    }
+    mostActiveWeekday: {
+      day: string
+      contributions: number
+    }
     mostActiveMonth: {
       month: string
       contributions: number

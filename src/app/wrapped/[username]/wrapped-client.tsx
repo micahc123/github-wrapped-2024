@@ -20,6 +20,7 @@ import { PinnedReposSlide } from '@/components/slides/pinned-repos-slide'
 import { ActivityStatsSlide } from '@/components/slides/activity-stats-slide'
 import { MostActiveMonthSlide } from '@/components/slides/most-active-month-slide'
 import { TotalStatsSlide } from '@/components/slides/total-stats-slide'
+import { ActiveWeekdaySlide } from '@/components/slides/active-weekday-slide'
 
 // Create a GraphQL client with automatic retries and rate limiting
 const graphqlWithAuth = async (query: string, variables: any) => {
@@ -187,6 +188,8 @@ export function WrappedClient({ username }: { username: string }) {
           topLanguages: calculateLanguages(contributions.commitContributionsByRepository),
           activeDays: calculateActiveDays(contributions.contributionCalendar.weeks),
           longestGap: calculateLongestGap(contributions.contributionCalendar.weeks),
+          mostActiveDay: calculateMostActiveDay(contributions.contributionCalendar.weeks),
+          mostActiveWeekday: calculateMostActiveWeekday(contributions.contributionCalendar.weeks),
           mostActiveMonth: calculateMostActiveMonth(contributions.contributionCalendar.weeks),
           totalStats: {
             stars: repos.reduce((acc: number, repo: any) => acc + (repo.stargazerCount || 0), 0),
@@ -231,6 +234,7 @@ export function WrappedClient({ username }: { username: string }) {
     { id: 'pinnedRepos', component: PinnedReposSlide },
     { id: 'activityStats', component: ActivityStatsSlide },
     { id: 'mostActive', component: MostActiveMonthSlide },
+    { id: 'activeWeekday', component: ActiveWeekdaySlide },
     { id: 'totalStats', component: TotalStatsSlide },
     { id: 'summary', component: SummarySlide }
   ]
@@ -353,6 +357,42 @@ function calculateMostActiveMonth(weeks: any[]): { month: string; contributions:
   
   return {
     month: `${monthName} ${year}`,
+    contributions: mostActive[1]
+  }
+}
+
+function calculateMostActiveDay(weeks: any[]): { date: string; contributions: number } {
+  const days = weeks.flatMap(week => week.contributionDays)
+  const mostActive = days.reduce((max, day) => 
+    day.contributionCount > (max?.contributionCount || 0) ? day : max
+  , days[0])
+  
+  return {
+    date: mostActive.date,
+    contributions: mostActive.contributionCount
+  }
+}
+
+function calculateMostActiveWeekday(weeks: any[]): { day: string; contributions: number } {
+  const weekdayContributions = new Map<number, number>()
+  const days = weeks.flatMap(week => week.contributionDays)
+  
+  days.forEach(day => {
+    const date = new Date(day.date)
+    const weekday = date.getDay()
+    weekdayContributions.set(
+      weekday,
+      (weekdayContributions.get(weekday) || 0) + day.contributionCount
+    )
+  })
+
+  const mostActive = Array.from(weekdayContributions.entries())
+    .sort((a, b) => b[1] - a[1])[0]
+
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  
+  return {
+    day: weekdays[mostActive[0]],
     contributions: mostActive[1]
   }
 } 

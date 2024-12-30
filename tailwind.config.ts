@@ -9,12 +9,21 @@ export default {
   ],
   theme: {
   	extend: {
+  		keyframes: {
+  			wave: {
+  				'0%': { backgroundPosition: '0 0' },
+  				'100%': { backgroundPosition: '1000px 0' },
+  			},
+  		},
+  		animation: {
+  			wave: 'wave 25s linear infinite',
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
-  				DEFAULT: 'hsl(var(--card))',
-  				foreground: 'hsl(var(--card-foreground))'
+  					DEFAULT: 'hsl(var(--card))',
+  					foreground: 'hsl(var(--card-foreground))'
   			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',

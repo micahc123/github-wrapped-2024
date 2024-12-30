@@ -61,7 +61,7 @@ export function LandingPage() {
 
         <div className="flex gap-4 mt-12">
           <a
-            href="https://github.com/yourusername/git-wrapped"
+            href="https://github.com/micahc123/github-wrapped-2024.git"
             target="_blank"
             rel="noopener noreferrer"
             className="text-neutral-400 hover:text-white transition-colors"

@@ -13,26 +13,9 @@ interface StoryProgressProps {
 export function StoryProgress({ 
   totalSlides, 
   currentSlide, 
-  duration = 5000,
+  duration = 4000,
   onTimeComplete 
 }: StoryProgressProps) {
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    setProgress(0)
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(timer)
-          onTimeComplete?.()
-          return 100
-        }
-        return prev + 1
-      })
-    }, duration / 100)
-
-    return () => clearInterval(timer)
-  }, [currentSlide, duration, onTimeComplete])
 
   return (
     <div className="absolute top-0 left-0 right-0 z-50 flex gap-1 p-2 bg-black/20 backdrop-blur-lg">
@@ -45,8 +28,12 @@ export function StoryProgress({
             <motion.div
               className="h-full bg-white rounded-full"
               initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: duration / 1000, ease: "linear" }}
+              animate={{ width: '100%' }}
+              transition={{ 
+                duration: duration / 1000,
+                ease: "linear",
+                onComplete: () => onTimeComplete?.()
+              }}
             />
           )}
           {index < currentSlide && (
